@@ -269,3 +269,7 @@ button:hover {
   filter: brightness(85%);
   cursor: pointer;
 }
+
+button:active {
+  scale: 0.97;
+}
