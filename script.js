@@ -2,6 +2,8 @@ const openModal = document.querySelector(".openModal");
 const modal = document.querySelector(".modal");
 
 openModal.addEventListener("click", () => {
+  document.getElementById("addBook").reset();
+
   modal.showModal();
 });
 
@@ -47,10 +49,14 @@ const container = document.getElementById("grid");
 
 submit.addEventListener("click", () => {
   addBookToLibrary();
-  myLibrary.forEach((item) => {
-    const book = document.createElement("div");
-    book.classList = "book";
-    const card = `
+  displayBook(myLibrary);
+});
+
+function displayBook(array) {
+  item = array[array.length - 1];
+  const book = document.createElement("div");
+  book.classList = "book";
+  const card = `
   <div class="book">
     <p>${item.title}</p>
     <p>${item.author}</p>
@@ -59,6 +65,5 @@ submit.addEventListener("click", () => {
     <button class="remove">Remove</button>
   </div>
 `;
-    container.innerHTML += card;
-  });
-});
+  container.innerHTML += card;
+}
