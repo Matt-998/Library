@@ -176,8 +176,7 @@ form button {
   font-size: inherit;
   margin: 10px 0;
 }
-
-.grid {
+#grid {
   background-color: #e9e9e97c;
   max-width: 1200px;
   display: grid;
