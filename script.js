@@ -56,12 +56,18 @@ function displayBook(array) {
   item = array[array.length - 1];
   const book = document.createElement("div");
   book.classList = "book";
+  let text;
+  if (item.read == false) {
+    text = "Not read";
+  } else {
+    text = "Read";
+  }
   const card = `
   <div class="book">
     <p>${item.title}</p>
     <p>${item.author}</p>
     <p>${item.pages}</p>
-    <button class=${item.read}>Not read</button>
+    <button class=${item.read}>${text}</button>
     <button class="remove">Remove</button>
   </div>
 `;
