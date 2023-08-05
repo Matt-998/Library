@@ -1,9 +1,9 @@
 const openModal = document.querySelector(".openModal");
 const modal = document.querySelector(".modal");
+const form = document.getElementById("addBook");
 
 openModal.addEventListener("click", () => {
-  document.getElementById("addBook").reset();
-
+  form.reset();
   modal.showModal();
 });
 
@@ -47,7 +47,7 @@ function addBookToLibrary() {
 const submit = document.getElementById("submit");
 const container = document.getElementById("grid");
 
-submit.addEventListener("click", () => {
+form.addEventListener("submit", () => {
   addBookToLibrary();
   displayBook(myLibrary);
 });
