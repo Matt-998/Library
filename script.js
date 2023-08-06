@@ -33,13 +33,13 @@ let myLibrary = [
     title: "Test1",
     author: "Test1",
     pages: "25",
-    read: '"read',
+    read: "read",
   },
   {
     title: "Test2",
     author: "Test2",
     pages: "45",
-    read: '"notRead',
+    read: "notRead",
   },
 ];
 
@@ -49,9 +49,9 @@ function addBookToLibrary() {
   let pages = document.getElementById("pages").value;
   let read = document.getElementById("read").checked;
   if (read == false) {
-    read = `"notRead`;
+    read = "notRead";
   } else {
-    read = `"read`;
+    read = "read";
   }
   let newBook = new bookMaker(title, author, pages, read);
   myLibrary.push(newBook);
@@ -62,7 +62,7 @@ const container = document.getElementById("grid");
 let readButtons = document.querySelectorAll(".readStatus");
 
 displayBook(myLibrary);
-readToggleAddEvntListnr();
+readToggleAddEvntListnr(myLibrary);
 
 form.addEventListener("submit", () => {
   addBookToLibrary();
@@ -70,6 +70,12 @@ form.addEventListener("submit", () => {
   readButtons = document.querySelectorAll(".readStatus");
   readToggleAddEvntListnr();
 });
+
+function indexOfBook(title, array) {
+  return array.findIndex((item) => {
+    return item.title === title;
+  });
+}
 
 function displayBook(array) {
   if (container.firstChild === null) {
@@ -79,19 +85,18 @@ function displayBook(array) {
   }
   for (i; i < array.length; i++) {
     item = array[i];
-
     let text;
-    if (item.read === `"notRead`) {
+    if (item.read === "notRead") {
       text = "Not read";
     } else {
       text = "Read";
     }
     const card = `
-  <div class="book">
+  <div class="book" data-objectIndex="${indexOfBook(item.title, array)}">
     <p>${item.title}</p>
     <p>${item.author}</p>
     <p>${item.pages}</p>
-    <button class=${item.read} readStatus">${text}</button>
+    <button class="${item.read} readStatus">${text}</button>
     <button class="remove">Remove</button>
   </div>
 `;
@@ -107,10 +112,18 @@ function readToggleAddEvntListnr() {
         case true:
           button.classList.add("notRead");
           button.classList.remove("read");
+          myLibrary[
+            button.parentElement.getAttribute("data-objectIndex")
+          ].read = "notRead";
+          button.textContent = "Not Read";
           break;
         case false:
           button.classList.remove("notRead");
           button.classList.add("read");
+          button.textContent = "Read";
+          myLibrary[
+            button.parentElement.getAttribute("data-objectIndex")
+          ].read = "read";
           break;
       }
     });
