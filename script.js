@@ -28,7 +28,20 @@ function bookMaker(title, author, pages, read) {
   this.read = read;
 }
 
-let myLibrary = [];
+let myLibrary = [
+  {
+    title: "Test1",
+    author: "Test1",
+    pages: "25",
+    read: '"read',
+  },
+  {
+    title: "Test2",
+    author: "Test2",
+    pages: "45",
+    read: '"notRead',
+  },
+];
 
 function addBookToLibrary() {
   let title = document.getElementById("title").value;
@@ -36,9 +49,9 @@ function addBookToLibrary() {
   let pages = document.getElementById("pages").value;
   let read = document.getElementById("read").checked;
   if (read == false) {
-    read = "notRead";
+    read = `"notRead`;
   } else {
-    read = "read";
+    read = `"read`;
   }
   let newBook = new bookMaker(title, author, pages, read);
   myLibrary.push(newBook);
@@ -46,10 +59,16 @@ function addBookToLibrary() {
 
 const submit = document.getElementById("submit");
 const container = document.getElementById("grid");
+let readButtons = document.querySelectorAll(".readStatus");
+
+displayBook(myLibrary);
+readToggleAddEvntListnr();
 
 form.addEventListener("submit", () => {
   addBookToLibrary();
   displayBook(myLibrary);
+  readButtons = document.querySelectorAll(".readStatus");
+  readToggleAddEvntListnr();
 });
 
 function displayBook(array) {
@@ -67,9 +86,26 @@ function displayBook(array) {
     <p>${item.title}</p>
     <p>${item.author}</p>
     <p>${item.pages}</p>
-    <button class=${item.read}>${text}</button>
+    <button class=${item.read} readStatus">${text}</button>
     <button class="remove">Remove</button>
   </div>
 `;
   container.innerHTML += card;
+}
+
+function readToggleAddEvntListnr() {
+  readButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      switch (button.classList.contains("read")) {
+        case true:
+          button.classList.add("notRead");
+          button.classList.remove("read");
+          break;
+        case false:
+          button.classList.remove("notRead");
+          button.classList.add("read");
+          break;
+      }
+    });
+  });
 }
