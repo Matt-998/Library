@@ -72,16 +72,21 @@ form.addEventListener("submit", () => {
 });
 
 function displayBook(array) {
-  item = array[array.length - 1];
-  const book = document.createElement("div");
-  book.classList = "book";
-  let text;
-  if (item.read == false) {
-    text = "Not read";
+  if (container.firstChild === null) {
+    i = 0;
   } else {
-    text = "Read";
+    i = array.length - 1;
   }
-  const card = `
+  for (i; i < array.length; i++) {
+    item = array[i];
+
+    let text;
+    if (item.read === `"notRead`) {
+      text = "Not read";
+    } else {
+      text = "Read";
+    }
+    const card = `
   <div class="book">
     <p>${item.title}</p>
     <p>${item.author}</p>
@@ -90,7 +95,9 @@ function displayBook(array) {
     <button class="remove">Remove</button>
   </div>
 `;
-  container.innerHTML += card;
+    container.innerHTML += card;
+    readButtons = document.querySelectorAll(".readStatus");
+  }
 }
 
 function readToggleAddEvntListnr() {
