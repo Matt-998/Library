@@ -60,15 +60,19 @@ function addBookToLibrary() {
 const submit = document.getElementById("submit");
 const container = document.getElementById("grid");
 let readButtons = document.querySelectorAll(".readStatus");
+let removeButtons = document.querySelectorAll(".remove");
 
 displayBook(myLibrary);
 readToggleAddEvntListnr(myLibrary);
+removeAddEvntListnr();
 
 form.addEventListener("submit", () => {
   addBookToLibrary();
   displayBook(myLibrary);
   readButtons = document.querySelectorAll(".readStatus");
+  removeButtons = document.querySelectorAll(".remove");
   readToggleAddEvntListnr();
+  removeAddEvntListnr();
 });
 
 function indexOfBook(title, array) {
@@ -92,40 +96,55 @@ function displayBook(array) {
       text = "Read";
     }
     const card = `
-  <div class="book" data-objectIndex="${indexOfBook(item.title, array)}">
+    <div class="book" data-objectIndex="${indexOfBook(item.title, array)}">
     <p>${item.title}</p>
     <p>${item.author}</p>
     <p>${item.pages}</p>
     <button class="${item.read} readStatus">${text}</button>
     <button class="remove">Remove</button>
-  </div>
-`;
+  </div>`;
     container.innerHTML += card;
     readButtons = document.querySelectorAll(".readStatus");
+    removeButtons = document.querySelectorAll(".remove");
   }
 }
 
 function readToggleAddEvntListnr() {
   readButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      switch (button.classList.contains("read")) {
-        case true:
-          button.classList.add("notRead");
-          button.classList.remove("read");
-          myLibrary[
-            button.parentElement.getAttribute("data-objectIndex")
-          ].read = "notRead";
-          button.textContent = "Not Read";
-          break;
-        case false:
-          button.classList.remove("notRead");
-          button.classList.add("read");
-          button.textContent = "Read";
-          myLibrary[
-            button.parentElement.getAttribute("data-objectIndex")
-          ].read = "read";
-          break;
-      }
+      toggleReadStatus(button);
     });
   });
+}
+
+function removeAddEvntListnr() {
+  removeButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      removeBook(button);
+    });
+  });
+}
+
+function toggleReadStatus(button) {
+  switch (button.classList.contains("read")) {
+    case true:
+      button.classList.add("notRead");
+      button.classList.remove("read");
+      myLibrary[button.parentElement.getAttribute("data-objectIndex")].read =
+        "notRead";
+      button.textContent = "Not Read";
+      break;
+    case false:
+      button.classList.remove("notRead");
+      button.classList.add("read");
+      button.textContent = "Read";
+      myLibrary[button.parentElement.getAttribute("data-objectIndex")].read =
+        "read";
+      break;
+  }
+}
+
+function removeBook(button) {
+  myLibrary.splice(button.parentElement.getAttribute("data-objectIndex"), 1);
+  button.parentElement.remove();
 }
