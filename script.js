@@ -1,3 +1,4 @@
+// Modal opening and closing + animation triggers
 const openModal = document.querySelector(".openModal");
 const modal = document.querySelector(".modal");
 const form = document.getElementById("addBook");
@@ -25,27 +26,22 @@ function closeModal() {
   );
 }
 
+let myLibrary = [];
+const container = document.getElementById("grid");
+let readButtons = document.querySelectorAll(".readStatus");
+let removeButtons = document.querySelectorAll(".remove");
+
+displayBook(myLibrary);
+readToggleAddEvntListnr(myLibrary);
+removeAddEvntListnr();
+
+// Object constructor
 function bookMaker(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
 }
-
-let myLibrary = [
-  {
-    title: "Test1",
-    author: "Test1",
-    pages: "25",
-    read: "read",
-  },
-  {
-    title: "Test2",
-    author: "Test2",
-    pages: "45",
-    read: "notRead",
-  },
-];
 
 function addBookToLibrary() {
   let title = document.getElementById("title").value;
@@ -60,15 +56,6 @@ function addBookToLibrary() {
   let newBook = new bookMaker(title, author, pages, read);
   myLibrary.push(newBook);
 }
-
-const submit = document.getElementById("submit");
-const container = document.getElementById("grid");
-let readButtons = document.querySelectorAll(".readStatus");
-let removeButtons = document.querySelectorAll(".remove");
-
-displayBook(myLibrary);
-readToggleAddEvntListnr(myLibrary);
-removeAddEvntListnr();
 
 form.addEventListener("submit", () => {
   closeModal();
@@ -114,6 +101,11 @@ function displayBook(array) {
   }
 }
 
+function removeBook(button) {
+  myLibrary.splice(button.parentElement.getAttribute("data-objectIndex"), 1);
+  button.parentElement.remove();
+}
+
 function readToggleAddEvntListnr() {
   readButtons.forEach((button) => {
     button.addEventListener("click", () => {
@@ -147,9 +139,4 @@ function toggleReadStatus(button) {
         "read";
       break;
   }
-}
-
-function removeBook(button) {
-  myLibrary.splice(button.parentElement.getAttribute("data-objectIndex"), 1);
-  button.parentElement.remove();
 }
