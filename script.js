@@ -9,17 +9,21 @@ openModal.addEventListener("click", () => {
 
 modal.addEventListener("click", (e) => {
   if (e.target.nodeName === "DIALOG") {
-    modal.setAttribute("closing", "");
-    modal.addEventListener(
-      "animationend",
-      () => {
-        modal.removeAttribute("closing");
-        modal.close();
-      },
-      { once: true }
-    );
+    closeModal();
   }
 });
+
+function closeModal() {
+  modal.setAttribute("closing", "");
+  modal.addEventListener(
+    "animationend",
+    () => {
+      modal.removeAttribute("closing");
+      modal.close();
+    },
+    { once: true }
+  );
+}
 
 function bookMaker(title, author, pages, read) {
   this.title = title;
@@ -67,6 +71,7 @@ readToggleAddEvntListnr(myLibrary);
 removeAddEvntListnr();
 
 form.addEventListener("submit", () => {
+  closeModal();
   addBookToLibrary();
   displayBook(myLibrary);
   readButtons = document.querySelectorAll(".readStatus");
